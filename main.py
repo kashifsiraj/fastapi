@@ -6,9 +6,8 @@ from typing import Optional
 
 
 app = FastAPI()
-
-global products
 products = []
+
 
 class Product(BaseModel):
     id: Optional[int] = 0
@@ -86,6 +85,7 @@ def delete_product(value):
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
                             detail=f"message: Product with revision={value} was not found.")
 
+
 @app.delete('/products/id={value}', status_code=status.HTTP_204_NO_CONTENT)  
 def delete_product(value: int):
     for i, p in enumerate(products):
@@ -94,6 +94,7 @@ def delete_product(value: int):
             return Response(status_code=status.HTTP_204_NO_CONTENT)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
                             detail=f"message: Product with id={value} was not found.")
+
 
 @app.put('/products/{revision}')
 def update_product(revision, change_product: Product):
